@@ -1,10 +1,11 @@
 import React from 'react';
 import { ContactForm } from "./ContactForm";
 import {ContactList} from "./ContactList";
+import {Header} from "./Headers";
 
 export const App = () => (
-  <div>
-    <h1>Meteor Wallet - Galaxy!</h1>
+  <div >
+    <Header />
     <ContactForm />
     <ContactList />
   </div>

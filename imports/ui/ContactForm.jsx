@@ -1,5 +1,5 @@
 import React from "react";
-import {ContactCollection} from "../api/ContactCollection";
+import { Meteor } from "meteor/meteor";
 
 export const ContactForm = () => {
   const [name, setName] = React.useState(""); // Formik
@@ -7,10 +7,17 @@ export const ContactForm = () => {
   const [imageUrl, setImageUrl] = React.useState("");
 
   const saveContact = () => {
-    ContactCollection.insert({ name, email, imageUrl });
-    setName("");
-    setEmail("");
-    setImageUrl("");
+    // ContactCollection.insert({ name, email, imageUrl });  with the autopublish package we were able to insert directly into the collection from the client side
+    Meteor.call('contacts.insert', { name, email, imageUrl }, (error) => {
+      if(error) {
+        console.log(error.error);
+      } else {
+        setName("");
+        setEmail("");
+        setImageUrl("");
+      }
+    }); // now we need are calling the method we created on the server side
+
   }
 
   return (

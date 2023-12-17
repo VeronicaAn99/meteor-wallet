@@ -14,7 +14,7 @@ Meteor.methods({
       throw new Meteor.Error("Email is required.");
     }
     if (!imageUrl) {
-     throw new Meteor.Error("Image URL is required.");
+      throw new Meteor.Error("Image URL is required.");
     }
 
     return ContactCollection.insert({
@@ -33,5 +33,9 @@ Meteor.methods({
     // console.log("This contact was not removed")
     // }
     return ContactCollection.remove(contactId);
+  },
+  "contacts.archive"({ contactId }) {
+    check(contactId, String);
+    ContactCollection.update({ _id: contactId }, { $set: { archived: true } });
   },
 });

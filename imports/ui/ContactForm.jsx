@@ -1,20 +1,35 @@
 import React from "react";
 import { Meteor } from "meteor/meteor";
+import {ErrorAlert} from "./components/ErrorAlert";
+import {SuccessAlert} from "./components/SuccessAlert";
+
 
 export const ContactForm = () => {
   const [name, setName] = React.useState(""); // Formik
   const [email, setEmail] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
+  const [errorMessage , setErrorMessage] = React.useState("");
+  const [success , setSuccess] = React.useState("");
 
   const saveContact = () => {
     // ContactCollection.insert({ name, email, imageUrl });  with the autopublish package we were able to insert directly into the collection from the client side
     Meteor.call('contacts.insert', { name, email, imageUrl }, (error) => {
       if(error) {
-        console.log(error.error);
+        setErrorMessage(error.error)
+
+        setTimeout(() => {
+          setErrorMessage("")
+        }, 5000);
+
       } else {
         setName("");
         setEmail("");
         setImageUrl("");
+        setSuccess("Contact saved successfully")
+
+        setTimeout(() => {
+          setSuccess("")
+        }, 5000)
       }
     }); // now we need are calling the method we created on the server side
 
@@ -22,6 +37,8 @@ export const ContactForm = () => {
 
   return (
     <form className="mt-6 px-6">
+      {errorMessage && <ErrorAlert message={errorMessage} />}
+      {success && <SuccessAlert message={success} />}
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-6 sm:col-span-6 lg:col-span-2">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">

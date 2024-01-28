@@ -10,10 +10,11 @@ export const ContactForm = () => {
   const [imageUrl, setImageUrl] = React.useState("");
   const [errorMessage , setErrorMessage] = React.useState("");
   const [success , setSuccess] = React.useState("");
+  const [walletId, setWalletId] = React.useState("")
 
   const saveContact = () => {
     // ContactCollection.insert({ name, email, imageUrl });  with the autopublish package we were able to insert directly into the collection from the client side
-    Meteor.call('contacts.insert', { name, email, imageUrl }, (error) => {
+    Meteor.call('contacts.insert', { name, email, imageUrl, walletId }, (error) => {
       if(error) {
         setErrorMessage(error.error)
 
@@ -26,7 +27,7 @@ export const ContactForm = () => {
         setEmail("");
         setImageUrl("");
         setSuccess("Contact saved successfully")
-
+        setWalletId("")
         setTimeout(() => {
           setSuccess("")
         }, 5000)
@@ -75,6 +76,19 @@ export const ContactForm = () => {
             id="imageUrl"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        <div className="col-span-6">
+          <label htmlFor="walletId" className="block text-sm font-medium text-gray-700">
+            Wallet ID
+          </label>
+          <input
+            type="text"
+            id="walletId"
+            value={walletId}
+            onChange={(e) => setWalletId(e.target.value)}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>

@@ -50,6 +50,9 @@ export const ContactList = () => {
             <p className="text-sm font-medium text-gray-500 truncate">
               {person.email}
             </p>
+            <p className="text-sm font-medium text-gray-500 truncate">
+              {person.walletId}
+            </p>
           </div>
           <div>
             <a

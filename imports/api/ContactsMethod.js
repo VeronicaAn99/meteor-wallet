@@ -3,10 +3,11 @@ import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 
 Meteor.methods({
-  "contacts.insert"({ name, email, imageUrl }) {
+  "contacts.insert"({ name, email, imageUrl, walletId }) {
     check(name, String);
     check(email, String);
     check(imageUrl, String);
+    check()
     if (!name) {
       throw new Meteor.Error("Name is required.");
     }
@@ -16,12 +17,16 @@ Meteor.methods({
     if (!imageUrl) {
       throw new Meteor.Error("Image URL is required.");
     }
+    if(!walletId) {
+      throw new Meteor.Error("Wallet ID is required.")
+    }
 
     return ContactCollection.insert({
       name,
       email,
       imageUrl,
       createdAt: new Date(),
+      walletId,
     });
   },
   "contacts.remove"({ contactId }) {
